@@ -3,9 +3,12 @@ import { useParams } from 'react-router-dom'
 import type { DummyProduct } from '../../module/dummyJson'
 import { getProductById } from '../../services/dummyService'
 import { Button, Heading, HStack, Image, Tag, Text, VStack } from '@chakra-ui/react'
+import useUserStore from '../../shared/store/UserStore'
+import { toast } from 'sonner'
 
 const SingleProduct = () => {
     const { id } = useParams()
+    const user = useUserStore((state) => state.user)
 
     const [product, setProduct] = useState<DummyProduct | null>(null)
 
@@ -19,6 +22,14 @@ const SingleProduct = () => {
         getProduct()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const addToCard = (product) => {
+        if (user) {
+            toast.success('Se agregó al carrito')
+        } else {
+            toast.error('Necesitas iniciar sesión')
+        }
+    }
 
     if (product == null) {
         return <div>Cargando...</div>
@@ -36,7 +47,7 @@ const SingleProduct = () => {
                 </VStack>
                 <Text fontSize='sm' lineHeight='2'>{product.description}</Text>
                 <Text fontSize='3xl' fontWeight='bold'>${product.price}</Text>
-                <Button colorScheme='purple'>Agregar al carrito</Button>
+                <Button colorScheme='purple' onClick={() => addToCard(product)}>Agregar al carrito</Button>
             </VStack>
         </HStack>
     )

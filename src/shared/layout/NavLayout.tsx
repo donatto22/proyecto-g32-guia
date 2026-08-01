@@ -2,7 +2,8 @@ import { Box, Button, Heading, HStack, Link, VStack } from '@chakra-ui/react'
 import type { FC, ReactNode } from 'react'
 import { Link as RouterLink } from "react-router-dom"
 import { Paths } from '../../router/routes'
-import useUserStore from '../UserStore'
+import useUserStore from '../store/UserStore'
+import CartDrawer from '../components/CartDrawer'
 
 interface NavLayoutType {
     children: ReactNode
@@ -24,8 +25,12 @@ const NavLayout: FC<NavLayoutType> = ({ children }) => {
                             <Link as={RouterLink} to={Paths.home}>Home</Link>
                             {
                                 user ?
-                                    <Button onClick={logout} size='sm'
-                                        variant='outline' colorScheme='purple'>Cerrar sesión</Button>
+                                    <>
+                                        <Button onClick={logout} size='sm'
+                                            variant='outline' colorScheme='purple'>Cerrar sesión</Button>
+
+                                        <CartDrawer />
+                                    </>
                                     :
                                     <Link as={RouterLink} to={Paths.login}>Login</Link>
                             }

@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import { Paths } from '../routes'
-import useUserStore from '../../shared/UserStore'
+import useUserStore from '../../shared/store/UserStore'
 
 const LoginOutlet = () => {
     const user = useUserStore((state) => state.user)

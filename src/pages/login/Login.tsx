@@ -1,6 +1,6 @@
 import { Button, FormControl, FormLabel, Heading, Input, Link, VStack } from '@chakra-ui/react'
 import { signIn } from '../../services/dummyService'
-import useUserStore from '../../shared/UserStore'
+import useUserStore from '../../shared/store/UserStore'
 import { useNavigate } from 'react-router-dom'
 import { Paths } from '../../router/routes'
 

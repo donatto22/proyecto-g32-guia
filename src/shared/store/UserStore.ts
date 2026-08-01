@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { DummyAuth } from '../module/dummyJson'
+import type { DummyAuth } from '../../module/dummyJson'
 
 interface UserState {
     user: DummyAuth | null
