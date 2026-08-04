@@ -3,12 +3,15 @@ import { MdDelete } from 'react-icons/md'
 import type { DummyProduct } from '../../module/dummyJson'
 import type { FC } from 'react'
 import { FiMinus, FiPlus } from 'react-icons/fi'
+import useCartStore from '../store/CartStore'
 
 interface CartItemType {
     product: DummyProduct
 }
 
 const CartItem: FC<CartItemType> = ({ product }) => {
+    const removeItem = useCartStore((state) => state.removeItem)
+
     return (
         <HStack w='100%' justifyContent='space-between'
             outline='1px solid' outlineColor='gray.300' p='20px' pl='10px' borderRadius='14px'>
@@ -29,7 +32,7 @@ const CartItem: FC<CartItemType> = ({ product }) => {
                 </VStack>
             </HStack>
 
-            <Button colorScheme='red' variant='outline'>
+            <Button colorScheme='red' variant='outline' onClick={() => removeItem(product.id)}>
                 <MdDelete />
             </Button>
         </HStack>

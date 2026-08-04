@@ -5,7 +5,7 @@ import type { DummyProduct } from '../../module/dummyJson'
 interface CartStore {
     cart: [] | Array<DummyProduct>
     addItem: (product: DummyProduct) => void
-    removeItem: () => void
+    removeItem: (id: number) => void
 }
 
 const useCartStore = create<CartStore>()(
@@ -18,8 +18,10 @@ const useCartStore = create<CartStore>()(
                 }))
             },
 
-            removeItem: () => {
-
+            removeItem: (id: number) => {
+                set((state) => ({
+                    cart: state.cart.filter((product: DummyProduct) => product.id != id)
+                }))
             }
         }),
         {

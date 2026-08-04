@@ -10,6 +10,7 @@ const Home = () => {
     useEffect(() => {
         const getProducts = async () => {
             const data = await getDummyProducts()
+            console.log(data)
             setProducts(data)
         }
 

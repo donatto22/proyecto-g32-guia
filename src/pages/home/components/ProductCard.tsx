@@ -24,9 +24,11 @@ const ProductCard: FC<ProductCardType> = ({ product }) => {
     }
 
     return (
-        <VStack w='310px' borderRadius='20px' align='start'
+        <VStack w='310px' borderRadius='20px' align='start' position='relative'
             outline='1px solid' outlineColor='purple.200' p='1em'>
             <Image m='0 auto' w='130px' src={product.thumbnail} />
+            {product.stock == 0 && <Text color='red'>No hay stock</Text>}
+            {product.stock <= 10 && <Text color='orange.800' position='absolute' bgColor='orange.100' padding='2px 8px' borderRadius='4px'>Por agotarse</Text>}
             <Heading size='sm' as='h3'>
                 <Link as={RouterLink} to={`/product/${product.id}`}>{product.title}</Link>
             </Heading>

@@ -12,6 +12,7 @@ export interface DummyProduct {
     price: number
     discount: number
     thumbnail: string
+    stock: number
     images: Array<string>
     category: string
     brand: string
