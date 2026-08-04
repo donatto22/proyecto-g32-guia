@@ -1,8 +1,13 @@
-import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, HStack, Text, Tooltip, useDisclosure } from '@chakra-ui/react'
+import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, HStack, Text, Tooltip, useDisclosure, VStack } from '@chakra-ui/react'
 import { FiShoppingCart } from 'react-icons/fi'
+import useCartStore from '../store/CartStore'
+import { MdOutlineRemoveShoppingCart } from 'react-icons/md'
+import type { DummyProduct } from '../../module/dummyJson'
+import CartItem from './CartItem'
 
 const CartDrawer = () => {
     const { onClose, onOpen, isOpen } = useDisclosure()
+    const cart = useCartStore((state) => state.cart)
 
     return (
         <>
@@ -12,8 +17,7 @@ const CartDrawer = () => {
                 </Button>
             </Tooltip>
 
-
-            <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
+            <Drawer isOpen={isOpen} placement='right' onClose={onClose} size='sm'>
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
@@ -24,15 +28,28 @@ const CartDrawer = () => {
                     </DrawerHeader>
 
                     <DrawerBody>
-                        <Text>Hola</Text>
+                        {
+                            cart.length == 0 ? <VStack h='100%' justifyContent='center'>
+                                <MdOutlineRemoveShoppingCart size='100' />
+                                <Text>No tienes items en tu carrito</Text>
+                            </VStack> : <VStack gap='1em'>
+                                {
+                                    cart.map((i: DummyProduct) => (
+                                        <CartItem product={i} />
+                                    ))
+                                }
+                            </VStack>
+                        }
                     </DrawerBody>
 
-                    <DrawerFooter>
-                        <Button variant='outline' mr={3} onClick={onClose}>
-                            Cerrar
-                        </Button>
-                        <Button colorScheme='purple'>Comprar</Button>
-                    </DrawerFooter>
+                    {
+                        cart.length != 0 && <DrawerFooter>
+                            <Button variant='outline' mr={3} onClick={onClose}>
+                                Cerrar
+                            </Button>
+                            <Button colorScheme='purple'>Comprar</Button>
+                        </DrawerFooter>
+                    }
                 </DrawerContent>
             </Drawer>
         </>

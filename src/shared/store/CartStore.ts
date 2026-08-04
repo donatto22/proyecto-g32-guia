@@ -13,7 +13,9 @@ const useCartStore = create<CartStore>()(
         (set) => ({
             cart: [],
             addItem: (product) => {
-
+                set((state) => ({
+                    cart: [...state.cart, product]
+                }))
             },
 
             removeItem: () => {

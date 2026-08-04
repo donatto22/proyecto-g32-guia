@@ -4,6 +4,7 @@ import { Button, Heading, Image, Link, Tag, Text, VStack } from '@chakra-ui/reac
 import { Link as RouterLink } from 'react-router-dom'
 import useUserStore from '../../../shared/store/UserStore'
 import { toast } from 'sonner'
+import useCartStore from '../../../shared/store/CartStore'
 
 interface ProductCardType {
     product: DummyProduct
@@ -11,9 +12,11 @@ interface ProductCardType {
 
 const ProductCard: FC<ProductCardType> = ({ product }) => {
     const user = useUserStore((state) => state.user)
+    const addItem = useCartStore((state) => state.addItem)
 
-    const addToCard = (product) => {
+    const addToCard = (product: DummyProduct) => {
         if (user) {
+            addItem(product)
             toast.success('Se agregó al carrito')
         } else {
             toast.error('Necesitas iniciar sesión')
