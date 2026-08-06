@@ -5,10 +5,13 @@ import { getProductById } from '../../services/dummyService'
 import { Button, Heading, HStack, Image, Tag, Text, VStack } from '@chakra-ui/react'
 import useUserStore from '../../shared/store/UserStore'
 import { toast } from 'sonner'
+import QrProduct from '../../shared/components/QrProduct'
+import useCartStore from '../../shared/store/CartStore'
 
 const SingleProduct = () => {
     const { id } = useParams()
     const user = useUserStore((state) => state.user)
+    const addItem = useCartStore((state) => state.addItem)
 
     const [product, setProduct] = useState<DummyProduct | null>(null)
 
@@ -25,6 +28,7 @@ const SingleProduct = () => {
 
     const addToCard = (product) => {
         if (user) {
+            addItem(product)
             toast.success('Se agregó al carrito')
         } else {
             toast.error('Necesitas iniciar sesión')
@@ -36,20 +40,23 @@ const SingleProduct = () => {
     }
 
     return (
-        <HStack gap='2em' w='900px' m='0 auto'>
-            <Image src={product.thumbnail} />
+        <>
+            <QrProduct />
+            <HStack gap='2em' w='900px' m='0 auto'>
+                <Image src={product.thumbnail} />
 
-            <VStack align='start' gap='1em'>
-                <VStack align='start'>
-                    <Text fontStyle='italic'>{product.brand}</Text>
-                    <Heading mb={2}>{product.title}</Heading>
-                    <Tag colorScheme='purple'>{product.category}</Tag>
+                <VStack align='start' gap='1em'>
+                    <VStack align='start'>
+                        <Text fontStyle='italic'>{product.brand}</Text>
+                        <Heading mb={2}>{product.title}</Heading>
+                        <Tag colorScheme='purple'>{product.category}</Tag>
+                    </VStack>
+                    <Text fontSize='sm' lineHeight='2'>{product.description}</Text>
+                    <Text fontSize='3xl' fontWeight='bold'>${product.price}</Text>
+                    <Button colorScheme='purple' onClick={() => addToCard(product)}>Agregar al carrito</Button>
                 </VStack>
-                <Text fontSize='sm' lineHeight='2'>{product.description}</Text>
-                <Text fontSize='3xl' fontWeight='bold'>${product.price}</Text>
-                <Button colorScheme='purple' onClick={() => addToCard(product)}>Agregar al carrito</Button>
-            </VStack>
-        </HStack>
+            </HStack>
+        </>
     )
 }
 

@@ -38,7 +38,7 @@ const NavLayout: FC<NavLayoutType> = ({ children }) => {
                     </HStack>
                 </HStack>
 
-                <Box w='90%' m='0 auto'>
+                <Box w='90%' m='0 auto' minH='calc(100vh - 96px)'>
                     {children}
                 </Box>
             </VStack>
