@@ -8,6 +8,8 @@ const CartDrawer = () => {
     const { onClose, onOpen, isOpen } = useDisclosure()
     const cart = useCartStore((state) => state.cart)
     const clearCart = useCartStore((state) => state.clearCart)
+    const getTotalItems = useCartStore((state) => state.getTotalItems)
+    const getTotalPrice = useCartStore((state) => state.getTotalPrice)
 
     return (
         <>
@@ -23,7 +25,7 @@ const CartDrawer = () => {
                     <DrawerCloseButton />
                     <DrawerHeader>
                         <HStack>
-                            <FiShoppingCart /> <Text>Carrito</Text>
+                            <FiShoppingCart /> <Text>Carrito: {getTotalItems()}</Text>
                         </HStack>
                     </DrawerHeader>
 
@@ -51,7 +53,7 @@ const CartDrawer = () => {
                                 <Button colorScheme='red' variant='outline' onClick={clearCart}>
                                     Vaciar carrito
                                 </Button>
-                                <Button colorScheme='purple'>Comprar</Button>
+                                <Button colorScheme='purple'>Pagar ${getTotalPrice().toFixed(2)}</Button>
                             </ButtonGroup>
                         </DrawerFooter>
                     }

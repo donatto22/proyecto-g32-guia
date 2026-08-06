@@ -12,11 +12,13 @@ interface CartStore {
     removeItem: (id: number) => void
     decreaseQuantity: (product: DummyProduct) => void
     clearCart: () => void
+    getTotalItems: () => number
+    getTotalPrice: () => number
 }
 
 const useCartStore = create<CartStore>()(
     persist(
-        (set) => ({
+        (set, get) => ({
             cart: [],
             addItem: (product) => {
                 set((state) => {
@@ -65,6 +67,28 @@ const useCartStore = create<CartStore>()(
 
             clearCart: () => {
                 set({ cart: [] })
+            },
+
+            getTotalItems: () => {
+                const carrito = get().cart
+                let total = 0
+
+                for (let i = 0; i < carrito.length; i++) {
+                    total += carrito[i].quantity
+                }
+
+                return total
+            },
+
+            getTotalPrice: () => {
+                const carrito = get().cart
+                let total = 0
+
+                for (let i = 0; i < carrito.length; i++) {
+                    total += (carrito[i].quantity * carrito[i].price)
+                }
+
+                return total
             }
         }),
         {
