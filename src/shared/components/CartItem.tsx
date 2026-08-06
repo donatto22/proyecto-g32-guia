@@ -1,16 +1,17 @@
 import { Button, HStack, Image, Text, VStack } from '@chakra-ui/react'
 import { MdDelete } from 'react-icons/md'
-import type { DummyProduct } from '../../module/dummyJson'
 import type { FC } from 'react'
 import { FiMinus, FiPlus } from 'react-icons/fi'
-import useCartStore from '../store/CartStore'
+import useCartStore, { type CartProduct } from '../store/CartStore'
 
 interface CartItemType {
-    product: DummyProduct
+    product: CartProduct
 }
 
 const CartItem: FC<CartItemType> = ({ product }) => {
     const removeItem = useCartStore((state) => state.removeItem)
+    const addItem = useCartStore((state) => state.addItem)
+    const decreaseQuantity = useCartStore((state) => state.decreaseQuantity)
 
     return (
         <HStack w='100%' justifyContent='space-between'
@@ -19,13 +20,13 @@ const CartItem: FC<CartItemType> = ({ product }) => {
                 <Image src={product.thumbnail} w='80px' />
                 <VStack align='start'>
                     <Text>{product.title}</Text>
-                    <Text fontWeight='bold'>${product.price}</Text>
+                    <Text fontWeight='bold'>${(product.price * product.quantity).toFixed(2)}</Text>
                     <HStack>
-                        <Button size='xs'>
+                        <Button size='xs' onClick={() => decreaseQuantity(product)}>
                             <FiMinus />
                         </Button>
-                        <Text>1</Text>
-                        <Button size='xs'>
+                        <Text>{product.quantity}</Text>
+                        <Button size='xs' onClick={() => addItem(product)}>
                             <FiPlus />
                         </Button>
                     </HStack>

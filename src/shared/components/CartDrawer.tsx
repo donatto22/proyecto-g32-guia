@@ -1,13 +1,13 @@
-import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, HStack, Text, Tooltip, useDisclosure, VStack } from '@chakra-ui/react'
+import { Button, ButtonGroup, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, HStack, Text, Tooltip, useDisclosure, VStack } from '@chakra-ui/react'
 import { FiShoppingCart } from 'react-icons/fi'
-import useCartStore from '../store/CartStore'
+import useCartStore, { type CartProduct } from '../store/CartStore'
 import { MdOutlineRemoveShoppingCart } from 'react-icons/md'
-import type { DummyProduct } from '../../module/dummyJson'
 import CartItem from './CartItem'
 
 const CartDrawer = () => {
     const { onClose, onOpen, isOpen } = useDisclosure()
     const cart = useCartStore((state) => state.cart)
+    const clearCart = useCartStore((state) => state.clearCart)
 
     return (
         <>
@@ -34,7 +34,7 @@ const CartDrawer = () => {
                                 <Text>No tienes items en tu carrito</Text>
                             </VStack> : <VStack gap='1em'>
                                 {
-                                    cart.map((i: DummyProduct) => (
+                                    cart.map((i: CartProduct) => (
                                         <CartItem product={i} />
                                     ))
                                 }
@@ -44,10 +44,15 @@ const CartDrawer = () => {
 
                     {
                         cart.length != 0 && <DrawerFooter>
-                            <Button variant='outline' mr={3} onClick={onClose}>
-                                Cerrar
-                            </Button>
-                            <Button colorScheme='purple'>Comprar</Button>
+                            <ButtonGroup>
+                                <Button variant='outline' onClick={onClose}>
+                                    Cerrar
+                                </Button>
+                                <Button colorScheme='red' variant='outline' onClick={clearCart}>
+                                    Vaciar carrito
+                                </Button>
+                                <Button colorScheme='purple'>Comprar</Button>
+                            </ButtonGroup>
                         </DrawerFooter>
                     }
                 </DrawerContent>
